@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace ConsoleApp10
 {
@@ -7,13 +7,6 @@ namespace ConsoleApp10
         private readonly double _a;
         private readonly double _b;
         private readonly double _c;
-
-        public QuadraticEquation()
-        {
-            _a = 0;
-            _b = 0;
-            _c = 0;
-        }
 
         public QuadraticEquation(double a, double b, double c)
         {
@@ -28,22 +21,23 @@ namespace ConsoleApp10
 
         public double[] Solve()
         {
-            double d = _b * _b - 4 * _a * _c;
+            double discriminant = _b * _b - 4 * _a * _c;
 
-            if (d < 0)
+            if (discriminant < 0)
             {
                 return Array.Empty<double>();
             }
 
-            if (d == 0)
+            if (discriminant == 0)
             {
                 double x = -_b / (2 * _a);
                 return new[] { x };
             }
 
-            double sqrtD = Math.Sqrt(d);
+            double sqrtD = Math.Sqrt(discriminant);
             double x1 = (-_b + sqrtD) / (2 * _a);
             double x2 = (-_b - sqrtD) / (2 * _a);
+
             return new[] { x1, x2 };
         }
 
@@ -52,36 +46,46 @@ namespace ConsoleApp10
             return $"{_a}x^2 + {_b}x + {_c} = 0";
         }
 
-        public static QuadraticEquation operator ++(QuadraticEquation eq)
+        public static QuadraticEquation operator ++(QuadraticEquation equation)
         {
-            return new QuadraticEquation(eq._a + 1, eq._b + 1, eq._c + 1);
+            return new QuadraticEquation(equation._a + 1, equation._b + 1, equation._c + 1);
         }
 
-        public static QuadraticEquation operator --(QuadraticEquation eq)
+        public static QuadraticEquation operator --(QuadraticEquation equation)
         {
-            return new QuadraticEquation(eq._a - 1, eq._b - 1, eq._c - 1);
+            return new QuadraticEquation(equation._a - 1, equation._b - 1, equation._c - 1);
         }
 
-        public static implicit operator double(QuadraticEquation eq)
+        public static implicit operator double(QuadraticEquation equation)
         {
-            return eq._b * eq._b - 4 * eq._a * eq._c;
+            return equation._b * equation._b - 4 * equation._a * equation._c;
         }
 
-        public static explicit operator bool(QuadraticEquation eq)
+        public static explicit operator bool(QuadraticEquation equation)
         {
-            return (eq._b * eq._b - 4 * eq._a * eq._c) >= 0;
+            return (equation._b * equation._b - 4 * equation._a * equation._c) >= 0;
         }
 
-        public static bool operator ==(QuadraticEquation eq1, QuadraticEquation eq2)
+        public static bool operator ==(QuadraticEquation left, QuadraticEquation right)
         {
-            return eq1._a == eq2._a &&
-                   eq1._b == eq2._b &&
-                   eq1._c == eq2._c;
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (left is null || right is null)
+            {
+                return false;
+            }
+
+            return left._a == right._a &&
+                   left._b == right._b &&
+                   left._c == right._c;
         }
 
-        public static bool operator !=(QuadraticEquation eq1, QuadraticEquation eq2)
+        public static bool operator !=(QuadraticEquation left, QuadraticEquation right)
         {
-            return !(eq1 == eq2);
+            return !(left == right);
         }
 
         public override bool Equals(object obj)
