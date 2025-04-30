@@ -21,11 +21,34 @@ namespace ConsoleApp10
 
         public double[] Solve()
         {
+            if (_a == 0)
+            {
+                if (_b == 0)
+                {
+                    if (_c == 0)
+                    {
+                        // Бесконечно много решений — можно выбросить исключение или вернуть специальное значение
+                        throw new InvalidOperationException("Уравнение имеет бесконечно много решений.");
+                    }
+                    else
+                    {
+                        // Нет решений
+                        return new double[0];
+                    }
+                }
+                else
+                {
+                    // Линейное уравнение: bx + c = 0
+                    double x = -_c / _b;
+                    return new[] { x };
+                }
+            }
+
             double discriminant = _b * _b - 4 * _a * _c;
 
             if (discriminant < 0)
             {
-                return Array.Empty<double>();
+                return new double[0];
             }
 
             if (discriminant == 0)
@@ -40,6 +63,7 @@ namespace ConsoleApp10
 
             return new[] { x1, x2 };
         }
+
 
         public override string ToString()
         {
